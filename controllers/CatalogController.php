@@ -11,7 +11,7 @@ class CatalogController extends Controller
     {
         $page = $_GET['page'] ?: 10 ;
 
-        $catalog = Catalog::getAll($page);
+        $catalog = Catalog::getAllLimit($page);
 
         echo $this->renderLayouts("catalog", [
             "catalog" => $catalog,
@@ -22,9 +22,7 @@ class CatalogController extends Controller
     public function actionProduct()
     {
         $id = $_GET["id"];
-
         $catalog = Catalog::getOne($id);
-
         $feedback = Feedback::getAlltoId($id);
 
         echo $this->renderLayouts("product", [
@@ -35,30 +33,27 @@ class CatalogController extends Controller
 
     public function actionSave()
     {
+        $id = $_GET['id'];
         $catalog = new Catalog;
-        if (isset($_GET['id'])) {
-            $catalog = Catalog::getOne($_GET['id']);
 
+        if (isset($id)) {
+            $catalog = Catalog::getOne($id);
             foreach ($_POST as $key => $value) {
                 $catalog->$key->$_POST[$value];
             }
-
             $catalog->update();
-            $this->actionProduct();
-            
         } else {
             $catalog = new Catalog($_POST['name'], $_POST['price'], $_POST['description']);
             $catalog->insert();
-            $this->actionCatalog();
         }
+        header("location:/?c=catalog&a=product&id=$id");
     }
 
     public function actionDelete()
-    {
-        $catalog = new Catalog;
-        $catalog = Catalog::getOne($_GET['id'])-> delete();
-        $catalog ;
-
-        $this->actionCatalog();
+    {      
+        $catalog =Catalog::getOne($_GET['id']);
+        $catalog -> delete();
+ 
+        header("location:/?c=catalog");
     }
 }

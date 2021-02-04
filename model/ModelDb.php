@@ -26,6 +26,18 @@ abstract class ModelDb extends Model
         return Db::getInstance()->queryOne($sql, ['id' => $id]);
     }
 
+    public static function getAll()
+    {
+        $tableName = static::getTableName();
+        $sql = "SELECT * FROM {$tableName}";
+        return Db::getInstance()->queryAll($sql);
+    }
+    
+    public static function getAllLimit ($page = []){
+        $tableName = static::getTableName();
+        $sql = "SELECT * FROM {$tableName} LIMIT 0 , ?";
+        return Db::getInstance()->queryAllLimit($sql, $page);
+    }
 
     public static function getAlltoId($id)
     {
@@ -41,13 +53,7 @@ abstract class ModelDb extends Model
         return Db::getInstance()->queryAll($sql, $params);
     }
 
-    public static function getAll($page=[])
-    {   
-        $tableName = static::getTableName();
-        $sql = "SELECT * FROM {$tableName} LIMIT $page ";
-        
-        return Db::getInstance()->queryAll($sql,[$page]);
-    }
+
 
     public function insert()
     {
@@ -93,7 +99,6 @@ abstract class ModelDb extends Model
     public function delete()
     {
         $tableName = static::getTableName();
-        echo $tableName;
         $sql = "DELETE FROM `$tableName` WHERE `id` = :id";
         Db::getInstance()->execute($sql, [':id' => $this->id]);
     }

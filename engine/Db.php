@@ -52,7 +52,6 @@ class Db
     {
         $sth = $this->connected()->prepare($sql);
         $sth->execute($params);
-        var_dump($sth,$params);
         return $sth;
     }
 
@@ -77,10 +76,10 @@ class Db
         return $this->connected->lastInsertId();
     }
 
-    public function queryLimit($sql, $page) {
-        $stmt = $this->connected()->prepare($sql);
-        $stmt->bindValue(1, $page, \PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll();
+    public function queryAllLimit($sql, $params) {
+        $sth = $this->connected()->prepare($sql);
+        $sth->bindValue(1, $params, \PDO::PARAM_INT);
+        $sth->execute();
+        return $sth->fetchAll();
     }
 }

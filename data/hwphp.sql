@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3307
--- Время создания: Янв 28 2021 г., 12:44
--- Версия сервера: 10.3.22-MariaDB
--- Версия PHP: 7.4.5
+-- Время создания: Фев 04 2021 г., 21:37
+-- Версия сервера: 8.0.19
+-- Версия PHP: 7.4.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,23 +28,20 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `basket` (
-  `idprod` int(11) NOT NULL,
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `idProdBasket` int(11) NOT NULL
+  `id_product` int NOT NULL,
+  `id_session` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity` int NOT NULL,
+  `id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `basket`
 --
 
-INSERT INTO `basket` (`idprod`, `id`, `quantity`, `idProdBasket`) VALUES
-(23, '4', 10, 1),
-(5, '1', 10, 5),
-(33, '1', 9, 7),
-(31, '1', 1, 8),
-(2, '1', 3, 47),
-(13, '1', 1, 48);
+INSERT INTO `basket` (`id_product`, `id_session`, `quantity`, `id`) VALUES
+(1, '1', 2, 53),
+(2, '1', 1, 54),
+(5, '2', 5, 55);
 
 -- --------------------------------------------------------
 
@@ -53,28 +50,44 @@ INSERT INTO `basket` (`idprod`, `id`, `quantity`, `idProdBasket`) VALUES
 --
 
 CREATE TABLE `catalog` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `price` int(11) NOT NULL,
-  `imgProd` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `veiws` int(11) NOT NULL DEFAULT 0,
-  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `id` int NOT NULL,
+  `name_product` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` int NOT NULL,
+  `img_prod` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `veiws` int NOT NULL DEFAULT '0',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `catalog`
 --
 
-INSERT INTO `catalog` (`id`, `name`, `price`, `imgProd`, `veiws`, `description`) VALUES
-(1, 'Pizza', 50, '1.jpg', 187, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.'),
-(2, 'Apple', 1, '2.jpg', 36, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.'),
-(5, 'Tea', 7, '5.jpg', 85, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.'),
+INSERT INTO `catalog` (`id`, `name_product`, `price`, `img_prod`, `veiws`, `description`) VALUES
+(1, 'Pizza', 50, '1.jpg', 206, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.'),
+(2, 'Apple', 1, '2.jpg', 45, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.'),
+(5, 'Tea', 7, '5.jpg', 97, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, dolorum.'),
 (7, 'Грибы', 30, '', 0, 'Лисички'),
 (13, 'Молоко', 50, '12.img', 0, 'Коровье'),
 (31, 'Торт', 45, NULL, 0, 'шоколадный'),
 (32, 'Цай', 25, NULL, 0, 'Цейлонский'),
-(33, 'Цай', 25, NULL, 0, 'Цейлонский'),
-(34, 'Цай', 25, NULL, 0, 'Цейлонский');
+(41, 'dsf', 123, NULL, 0, 'sdf'),
+(42, 'dsf', 123, NULL, 0, 'sdf'),
+(43, 'dsf', 123, NULL, 0, 'sdf'),
+(44, 'Киви', 123, NULL, 0, 'Зеленый'),
+(45, 'Киви', 123, NULL, 0, 'Зеленый'),
+(46, '1', 1, NULL, 0, '1'),
+(47, 'Киви', 123, NULL, 0, 'Зеленый'),
+(48, 'Киви', 123, NULL, 0, 'Зеленый'),
+(49, 'Киви', 123, NULL, 0, 'Зеленый'),
+(50, 'Киви', 123, NULL, 0, 'Сладкий'),
+(51, 'dsf', 123, NULL, 0, 'sdf'),
+(52, 'dsf', 123, NULL, 0, 'Сладкий'),
+(53, 'dsf', 123, NULL, 0, 'sdf'),
+(54, 'dsf', 123, NULL, 0, 'sdf'),
+(55, 'dsf', 123, NULL, 0, 'sdf'),
+(56, 'Арбуз', 40, NULL, 0, 'Астраханский'),
+(57, 'Арбуз', 40, NULL, 0, 'Астраханский'),
+(58, 'Памела', 124, NULL, 0, 'врпилцу');
 
 -- --------------------------------------------------------
 
@@ -83,11 +96,11 @@ INSERT INTO `catalog` (`id`, `name`, `price`, `imgProd`, `veiws`, `description`)
 --
 
 CREATE TABLE `feedback` (
-  `idfeed` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `feedback` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `datefeedback` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id` int(11) DEFAULT NULL
+  `idfeed` int NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `feedback` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `datefeedback` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -108,10 +121,10 @@ INSERT INTO `feedback` (`idfeed`, `name`, `feedback`, `datefeedback`, `id`) VALU
 --
 
 CREATE TABLE `gallery` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `size` int(11) NOT NULL,
-  `views` int(11) DEFAULT NULL
+  `id` int NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `size` int NOT NULL,
+  `views` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -134,15 +147,15 @@ INSERT INTO `gallery` (`id`, `name`, `size`, `views`) VALUES
 --
 
 CREATE TABLE `orders` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `iduser` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `userName` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `iduser` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `products` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sumOrder` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sumOrder` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -165,21 +178,11 @@ INSERT INTO `orders` (`id`, `iduser`, `userName`, `number`, `email`, `city`, `pr
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `login` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pass` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `hash` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `id` int NOT NULL,
+  `login` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pass` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `users`
---
-
-INSERT INTO `users` (`id`, `login`, `pass`, `hash`) VALUES
-(1, 'admin', '$2y$10$/lf/pL9Y77Q3fXDFIp7qNeg4/NAFz6M3D.JuIkFrjSrS8WpNkE6Vi', '2705829485fff60f657dfc6.43773398'),
-(4, 'login', '$2y$10$8yrE5aymeCHOzaWQawc1qucyaqIbKWbgR7/gUkgMR5liwUWzNFbum', '123'),
-(9, 'nik', '123', NULL),
-(44, 'Valad', '123', '555');
 
 --
 -- Индексы сохранённых таблиц
@@ -189,7 +192,7 @@ INSERT INTO `users` (`id`, `login`, `pass`, `hash`) VALUES
 -- Индексы таблицы `basket`
 --
 ALTER TABLE `basket`
-  ADD PRIMARY KEY (`idProdBasket`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `catalog`
@@ -229,31 +232,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `idProdBasket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT для таблицы `catalog`
 --
 ALTER TABLE `catalog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT для таблицы `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `idfeed` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `idfeed` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT для таблицы `gallery`
 --
 ALTER TABLE `gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
