@@ -41,11 +41,12 @@ abstract class ModelDb extends Model
         return Db::getInstance()->queryAll($sql, $params);
     }
 
-    public static function getAll()
-    {
+    public static function getAll($page=[])
+    {   
         $tableName = static::getTableName();
-        $sql = "SELECT * FROM {$tableName}";
-        return Db::getInstance()->queryAll($sql);
+        $sql = "SELECT * FROM {$tableName} LIMIT $page ";
+        
+        return Db::getInstance()->queryAll($sql,[$page]);
     }
 
     public function insert()

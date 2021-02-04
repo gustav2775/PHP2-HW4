@@ -52,13 +52,13 @@ class Db
     {
         $sth = $this->connected()->prepare($sql);
         $sth->execute($params);
+        var_dump($sth,$params);
         return $sth;
     }
 
     public function queryOne($sql, $params)
     {
-        $stmt = $this->query($sql, $params);
-        return $stmt->fetch();
+        return  $this->query($sql, $params)->fetch();
     }
 
     public function queryAll($sql,$params=[])
@@ -71,8 +71,16 @@ class Db
         $stmt = $this->connected()->prepare($sql);
         $stmt->execute($params);
     }
+
     public function getLastId()
     {
         return $this->connected->lastInsertId();
+    }
+
+    public function queryLimit($sql, $page) {
+        $stmt = $this->connected()->prepare($sql);
+        $stmt->bindValue(1, $page, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

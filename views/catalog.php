@@ -30,4 +30,6 @@
       </div>
     <?php endforeach ?>
   </div>
+  
+  <a href="/?c=catalog&page=<?=$page + 5?>">Показать еще 5</a>
 </div>

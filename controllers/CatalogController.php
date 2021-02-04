@@ -9,10 +9,13 @@ class CatalogController extends Controller
 {
     public function actionCatalog()
     {
-        $catalog = Catalog::getAll();
+        $page = $_GET['page'] ?: 10 ;
+
+        $catalog = Catalog::getAll($page);
 
         echo $this->renderLayouts("catalog", [
-            "catalog" => $catalog
+            "catalog" => $catalog,
+            'page' =>$page
         ]);
     }
 
