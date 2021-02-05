@@ -39,14 +39,16 @@ class CatalogController extends Controller
         if (isset($id)) {
             $catalog = Catalog::getOne($id);
             foreach ($_POST as $key => $value) {
-                $catalog->$key->$_POST[$value];
+                $catalog->$key=$_POST[$key];
             }
             $catalog->update();
+            header("location:/?c=catalog&a=product&id=$id");
         } else {
             $catalog = new Catalog($_POST['name'], $_POST['price'], $_POST['description']);
             $catalog->insert();
+            header("location:/?c=catalog");
         }
-        header("location:/?c=catalog&a=product&id=$id");
+        
     }
 
     public function actionDelete()

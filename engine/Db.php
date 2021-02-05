@@ -82,4 +82,11 @@ class Db
         $sth->execute();
         return $sth->fetchAll();
     }
+
+    public function queryOneObject($sql, $params, $class)
+    {
+        $stmt = $this->query($sql, $params);
+        $stmt->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $class);
+        return $stmt->fetch();
+    }
 }

@@ -23,7 +23,7 @@ abstract class ModelDb extends Model
     {
         $tableName = static::getTableName();
         $sql = "SELECT * FROM {$tableName} WHERE id = :id";
-        return Db::getInstance()->queryOne($sql, ['id' => $id]);
+        return Db::getInstance()->queryOneObject($sql, ['id' => $id], static::class);
     }
 
     public static function getAll()
@@ -52,8 +52,6 @@ abstract class ModelDb extends Model
 
         return Db::getInstance()->queryAll($sql, $params);
     }
-
-
 
     public function insert()
     {
@@ -91,6 +89,7 @@ abstract class ModelDb extends Model
             }
         }
         $columns = implode(',', $columns);
+
         $sql = "UPDATE `$tableName` SET $columns WHERE `id`=:id";
         Db::getInstance()->execute($sql, $params);
         return $this;
